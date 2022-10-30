@@ -78,44 +78,57 @@ int *buildSuffixArray(char *txt, int n)
 }
 
 
-int search(char *pat, char *txt, int *suffArr, int n)
+int count(char *pat, char *txt, int *suffArr, int n)
 {
-    int rep =0;
-    int m = strlen(pat);  // obtenemos el largo del patron para usarlo en la funcion strncmp
-    int left = 0,right = n-1, middle, comparator, l, r;
-    bool found_letter = false;
-    // este bucle encuentra la primera repeticion del patron en el suffix array
+    int m = strlen(pat);
+    int rep =0 , middle, comp;
+    int l = 0, r = n-1;
+    bool found = false;
+    //con este bucle buscamos si el patron se encuentra en texto
+    //esto solo nos encuentra una de las repeticiones
+    while (l <= r)
+    {
+        
+        middle = l + (r - l)/2;
+        comp = strncmp(pat, txt+suffArr[middle], m);
 
-    while (left <= right)
-    {
-        middle = (right + left)/2;
-        comparator = strncmp(pat, txt+suffArr[middle], m);
-
-        if(comparator == 0){
-            found_letter = true;
+        if (comp == 0)
+        {
+            rep++;
+            found = true;
+            break;
         }
-        if(comparator< 0){
-            right = middle+1;
+        if (comp < 0){
+            r = middle - 1;
         }
-        if(comparator>0){
-            left = middle-1;
+        else{
+        l = middle + 1;
         }
     }
-    //bucle para encontrar todas las repeticiones a la izquierda
-    l = middle-1;
-    while (strncmp(pat,txt+suffArr[l],m) == 0)
+    //con este bucle buscamos todas las repeticiones del patron que se encuentren
+    //a la izquierda de la posicion inicial en la que lo encontramos en el arreglo de sufijos
+    int left =  middle - 1;
+    while (found)
     {
-        rep++;
-        l-1;
+        if(strncmp(pat, txt+suffArr[left], m) == 0){
+            left--;
+            rep++;
+        }else{
+            break;
+        }
     }
-    //bucle para encontrar todas las repeticiones a la derecha
-    r = middle +1;
-    while (strncmp(pat,txt+suffArr[r],m) == 0)
+    //con este bucle buscamos todas las repeticiones del patron que se encuentren
+    //a la derecha de la posicion inicial en la que lo encontramos en el arreglo de sufijos
+    int right = middle +1;
+    while (found)
     {
-        rep++;
-        r+1;
+        if(strncmp(pat, txt+suffArr[right], m) == 0){
+            right++;
+            rep++;
+        }else{
+            break;
+        }
     }
-    
     return rep;
 }
 int main(){
@@ -129,7 +142,7 @@ int main(){
     strcpy(txt,text.c_str());        
 
     int* suffArr = buildSuffixArray(txt,text.length());
-    int rep = search(pat,txt,suffArr,text.length());
+    int rep = count(pat,txt,suffArr,text.length());
 
     /*
     auto start = chrono::high_resolution_clock::now();
