@@ -131,6 +131,80 @@ int count(char *pat, char *txt, int *suffArr, int n)
     }
     return rep;
 }
+
+void tableSuffixPrefix(string pattern, int* table){
+
+    table[0] = 0;
+    int largoSuffijo = 0;
+    int i = 1;
+    int largoPatron = pattern.length();
+    while (i<largoPatron)
+    {
+        if(pattern[i] == pattern[largoSuffijo]){
+            largoSuffijo++;
+            table[i] = largoSuffijo;
+            i++;
+        }else{
+            if(largoSuffijo != 0){
+
+                largoSuffijo = table[largoSuffijo-1];
+
+            }else{
+                table[i] = 0;
+                i++;
+            }
+        }
+    }
+
+
+
+}
+int KMPcount(string text, string pattern){
+
+    int rep = 0;
+    int m = pattern.length();
+    int n = text.length();
+    int i = 0; //indice texto
+    int j = 0; //indice patron
+
+    int table[m];
+    tableSuffixPrefix(pattern, table);
+
+    while ((n-i) > (m-j))
+    {
+        //si encontramos un caracter igual sumamos a i y j
+        if(pattern[j] == text[i]){
+            i++;
+            j++;
+            
+        }
+        // si j es igual a m significa que encontramos el patron
+        // asi que sumamos al contador de repeticiones y llevamos a j
+        // al ultimo caracter del sufijo que igual es prefijo
+        if(j==m){
+
+            rep++;
+            j = table[j-1];
+        
+        }else if(i<n && pattern[j] != text[i]){ // si encontramos una diferencia y todavia nos encontramos en el string
+
+            // si j es distinto de cero, o sea tenemos coincidencia llevamos a j al ultimo caracter del sufijo que igual es prefijo
+            if(j!= 0){
+                
+                j = table[j-1];
+            
+            }else{ //si j es igual a 0 nos movemos a la siguiente posicion a comparar en el texto
+                i++;
+            }
+
+        }
+
+    }
+    return rep ++;
+}
+
+
+
 int main(){
     string text;
     getline(cin,text);
