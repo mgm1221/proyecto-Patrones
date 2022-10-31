@@ -169,9 +169,8 @@ int KMPcount(string text, string pattern){
 
     int table[m];
     tableSuffixPrefix(pattern, table);
-
-    while ((n-i) > (m-j))
-    {
+    while ((n-i) >= (m-j))
+    {   
         //si encontramos un caracter igual sumamos a i y j
         if(pattern[j] == text[i]){
             i++;
@@ -200,7 +199,7 @@ int KMPcount(string text, string pattern){
         }
 
     }
-    return rep ++;
+    return rep;
 }
 
 
@@ -215,9 +214,9 @@ int main(){
     char txt[text.length()];
     strcpy(txt,text.c_str());        
 
-    int* suffArr = buildSuffixArray(txt,text.length());
-    int rep = count(pat,txt,suffArr,text.length());
-
+    
+    int rep = KMPcount(text,Pat);
+    cout<< rep<< endl;
     /*
     auto start = chrono::high_resolution_clock::now();
     auto end = chrono::high_resolution_clock::now();
