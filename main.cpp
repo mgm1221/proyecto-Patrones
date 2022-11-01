@@ -207,7 +207,7 @@ int KMPcount(string text, string pattern){
 int main(){
     string text;
     getline(cin,text);
-    string Pat = "rhoncus";
+    string Pat = "FL";
 
     char pat[Pat.length()];
     strcpy(pat,Pat.c_str());
