@@ -3,9 +3,6 @@
 #include <string.h>
 #include <chrono>
 #include <math.h>
-#include "stdlib.h"
-#include "stdio.h"
-#include "string.h"
 
 using namespace std;
 
@@ -33,6 +30,8 @@ int getValue(){
     fclose(file);
     return result;
 }
+
+
 //implementacion geeks for geeks suffix array
 // la unica diferencia en comparacion a la implemetacion hecha en geeks for geeks es que la
 //funcion search cuenta la cantidad de veces que encuentra la palabra en vez de devolver si se encuentra 
@@ -132,6 +131,7 @@ int count(char *pat, char *txt, int *suffArr, int n)
     return rep;
 }
 
+
 void tableSuffixPrefix(string pattern, int* table){
 
     table[0] = 0;
@@ -208,15 +208,11 @@ int main(){
     string text;
     getline(cin,text);
     string Pat = "FL";
-
-    char pat[Pat.length()];
-    strcpy(pat,Pat.c_str());
-    char txt[text.length()];
-    strcpy(txt,text.c_str());        
-
     
     int rep = KMPcount(text,Pat);
     cout<< rep<< endl;
+
+
     /*
     auto start = chrono::high_resolution_clock::now();
     auto end = chrono::high_resolution_clock::now();
