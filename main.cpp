@@ -206,7 +206,7 @@ int KMPcount(string text, string pattern){
 int main(){
     string text;
     getline(cin,text);
-    string Pat = "FL";
+    string Pat = "rhoncus";
     
     char pat[Pat.length()];
     strcpy(pat,Pat.c_str());
@@ -215,7 +215,7 @@ int main(){
 
     int* suffixarray = buildSuffixArray(txt,text.length());
     int a = countSF(pat,txt, suffixarray, text.length());
-    
+    cout<< a << endl;
     /*
     auto start = chrono::high_resolution_clock::now();
     auto end = chrono::high_resolution_clock::now();
