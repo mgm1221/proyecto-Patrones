@@ -31,7 +31,6 @@ int getValue(){
     return result;
 }
 
-
 //implementacion geeks for geeks suffix array
 // la unica diferencia en comparacion a la implemetacion hecha en geeks for geeks es que la
 //funcion search cuenta la cantidad de veces que encuentra la palabra en vez de devolver si se encuentra 
@@ -77,7 +76,7 @@ int *buildSuffixArray(char *txt, int n)
 }
 
 
-int count(char *pat, char *txt, int *suffArr, int n)
+int countSF(char *pat, char *txt, int *suffArr, int n)
 {
     int m = strlen(pat);
     int rep =0 , middle, comp;
@@ -138,8 +137,8 @@ void tableSuffixPrefix(string pattern, int* table){
     int largoSuffijo = 0;
     int i = 1;
     int largoPatron = pattern.length();
-    while (i<largoPatron)
-    {
+
+    while (i<largoPatron){
         if(pattern[i] == pattern[largoSuffijo]){
             largoSuffijo++;
             table[i] = largoSuffijo;
@@ -209,10 +208,14 @@ int main(){
     getline(cin,text);
     string Pat = "FL";
     
-    int rep = KMPcount(text,Pat);
-    cout<< rep<< endl;
+    char pat[Pat.length()];
+    strcpy(pat,Pat.c_str());
+    char txt[text.length()];
+    strcpy(txt,text.c_str()); 
 
-
+    int* suffixarray = buildSuffixArray(txt,text.length());
+    int a = countSF(pat,txt, suffixarray, text.length());
+    
     /*
     auto start = chrono::high_resolution_clock::now();
     auto end = chrono::high_resolution_clock::now();
